@@ -1,0 +1,221 @@
+
+</head>
+
+<body>
+
+	<!-- Main navbar -->
+	<div class="navbar navbar-expand-md navbar-dark bg-green-800">
+		<div class="navbar-brand wmin-0 mr-5">
+			<a href="/" class="d-inline-block">
+				<img src="/assets/images/logo_light.png" alt="">
+			</a>
+		</div>
+
+		<div class="d-md-none">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
+				<i class="icon-tree5"></i>
+			</button>
+		</div>
+
+		<div class="collapse navbar-collapse" id="navbar-mobile">
+			<span class="navbar-text ml-md-3 mr-md-auto">
+			</span>
+			<ul class="navbar-nav">
+				<% if(show_login){ %>
+				<li class="nav item">
+					<a href="/" class="btn btn-success mt-1 mb-1"><i class="icon-pencil7 mr-2"></i>ลงชื่อเข้าระบบ</a>
+				</li>
+				<% } else { %>
+				<li class="nav-item dropdown dropdown-user">
+					<a href="#" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
+						<img src="/assets/images/placeholders/placeholder.jpg" class="rounded-circle" alt="">
+						<span><%=user.fullname %></span>
+					</a>
+
+					<div class="dropdown-menu dropdown-menu-right">
+						<a href="/user/profile" class="dropdown-item"><i class="icon-user-tie"></i> บัญชีผู้ใช้งาน</a>
+						<div class="dropdown-divider"></div>
+						<a href="/user/edit" class="dropdown-item"><i class="icon-cog5"></i> แก้ไขข้อมูล</a>
+						<a href="/logout" class="dropdown-item"><i class="icon-switch2"></i> ออกจากระบบ</a>
+					</div>
+				</li>
+				<% } %>
+			</ul>
+		</div>
+	</div>
+	<!-- /main navbar -->
+
+
+	<!-- Secondary navbar -->
+	<div class="navbar navbar-expand-md navbar-light navbar-sticky">
+		<div class="text-center d-md-none w-100">
+			<button type="button" class="navbar-toggler dropdown-toggle" data-toggle="collapse" data-target="#navbar-navigation">
+				<i class="icon-unfold mr-2"></i>
+				เมนูหลัก
+			</button>
+		</div>
+
+		<div class="navbar-collapse collapse" id="navbar-navigation">
+			<ul class="navbar-nav navbar-nav-highlight">
+				<li class="nav-item">
+					<a href="/" class="navbar-nav-link <%= menu == 1 ? 'active':'' %>">
+						<i class="icon-home4 mr-2"></i>
+						หน้าหลัก
+					</a>
+				</li>
+
+				<li class="nav-item nav-item-levels mega-menu-full">
+					<a href="#" class="navbar-nav-link dropdown-toggle <%= menu == 2 ? 'active':'' %>" data-toggle="dropdown">
+						<i class="icon-heart6 mr-2"></i>
+						บริการ
+					</a>
+
+					<div class="dropdown-menu dropdown-content">
+						<div class="dropdown-content-body">
+							<div class="row">
+								<% if( user == null || (user!=null && (user.role==1 || user.role==4)) ){ %>
+								<div class="col-md-3">
+									<div class="font-size-sm line-height-sm font-weight-semibold text-uppercase mt-1">ยื่นคำร้อง</div>
+									<div class="dropdown-divider mb-2"></div>
+									<div class="dropdown-item-group mb-3 mb-md-0">
+										<ul class="list-unstyled">
+											<% if( user == null || user.role==4 ){ %>
+											<li><a href="/appform/register" class="dropdown-item rounded"><i class="icon-clipboard4"></i>ยื่นคำร้องขอเข้าพักอาศัย</a></li>
+											<% } %>
+
+											
+											<% if( user != null && user.role==4){ %>
+											<li><a href="/appform/check" class="dropdown-item rounded"><i class="icon-search4"></i>ตรวจสอบสถานะคำร้อง</a></li>
+											<li><a href="/appform/order" class="dropdown-item rounded"><i class="icon-search4"></i>ตรวจสอบลำดับ</a></li>
+											<% } %>
+
+											<% if( user != null && user.role==1){ %>
+											<li><a href="/appform/approve" class="dropdown-item rounded"><i class="icon-quill2"></i>อนุมัติคำร้อง</a></li>
+											<% } %>	
+										</ul>
+									</div>
+								</div>
+								<% } %>	
+
+								<% if( user != null && (user.role==1 || user.role==2) ){ %>
+								<div class="col-md-3">
+									<div class="font-size-sm line-height-sm font-weight-semibold text-uppercase mt-1">จัดการข้อมูล</div>
+									<div class="dropdown-divider mb-2"></div>
+									<div class="dropdown-item-group mb-3 mb-md-0">
+										<ul class="list-unstyled">
+											<% if( user.role==1 ){ %>
+											<li><a href="/manage/member" class="dropdown-item rounded"><i class="icon-users4"></i>จัดการข้อมูลสมาชิก</a></li>
+											<% } %>
+											<% if( user.role==1 || user.role==2){ %>
+											<li><a href="/manage/room" class="dropdown-item rounded"><i class="icon-office"></i>จัดการข้อมูลห้องพัก/ผู้อยู่อาศัย</a></li>
+											<% } %>
+											<% if( user.role==1 ){ %>
+											<li><a href="/manage/material" class="dropdown-item rounded"><i class="icon-chair"></i>จัดการข้อมูลครุภัณฑ์</a></li>
+											<% } %>
+										</ul>
+									</div>
+								</div>
+								<% } %>	
+
+								<% if( user != null && user.role==3 ){ %>
+								<div class="col-md-3">
+									<div class="font-size-sm line-height-sm font-weight-semibold text-uppercase mt-1">ข้อมูลห้องพัก</div>
+									<div class="dropdown-divider mb-2"></div>
+									<div class="dropdown-item-group mb-3 mb-md-0">
+										<ul class="list-unstyled">
+											<li><a href="/room/data" class="dropdown-item rounded"><i class="icon-bed2"></i>ข้อมูลห้องพัก</a></li>
+											<li><a href="/room/water" class="dropdown-item rounded"><i class="icon-droplet"></i>แจ้งยอดการใช้น้ำ</a></li>
+											<li><a href="/room/bill" class="dropdown-item rounded"><i class="icon-calculator"></i>ค่าบำรุงรายเดือน</a></li>
+											<li><a href="/room/material" class="dropdown-item rounded"><i class="icon-furniture"></i>ตรวจสอบครุภัณฑ์</a></li>
+										</ul>
+									</div>
+								</div>
+								<% } %>	
+
+								<% if( user != null && (user.role==1 || user.role==2) ){ %>
+								<div class="col-md-3">
+									<div class="font-size-sm line-height-sm font-weight-semibold text-uppercase mt-1">ผู้ดูแลประจำอาคาร</div>
+									<div class="dropdown-divider mb-2"></div>
+									<div class="dropdown-item-group mb-3 mb-md-0">
+										<ul class="list-unstyled">
+											<% if( user.role==2 ){ %>
+											<li><a href="/officer/material" class="dropdown-item rounded"><i class="icon-clipboard2"></i>อนุมัติการตรวจสอบครุภัณฑ์</a></li>
+											<% } %>
+											<% if( user.role==1|| user.role==2 ){ %>
+											<li><a href="/officer/bill" class="dropdown-item rounded"><i class="icon-clipboard3"></i>รายการค่าบำรุงรายเดือน</a></li>
+											<% } %>
+										</ul>
+									</div>
+								</div>
+								<% } %>	
+							</div>
+						</div>
+					</div>
+				</li>
+
+				<% if( user != null ){ %>
+				<li class="nav-item dropdown">
+					<a href="#" class="navbar-nav-link dropdown-toggle <%= menu == 3 ? 'active':'' %>" data-toggle="dropdown">
+						<i class="icon-vcard mr-2"></i>
+						ข้อมูลผู้ใช้
+					</a>
+
+					<div class="dropdown-menu">
+						<div class="dropdown-header">จัดการข้อมูลผู้ใช้งาน</div>
+						<a href="/user/profile" class="dropdown-item"><i class="icon-user-tie"></i> ข้อมูลผู้ใช้</a>
+						<a href="/user/edit" class="dropdown-item"><i class="icon-user-check"></i> แก้ไขข้อมูล</a>
+					</div>
+				</li>
+				<% } %>	
+
+				<li class="nav-item dropdown">
+					<a href="#" class="navbar-nav-link dropdown-toggle <%= menu == 4 ? 'active':'' %>" data-toggle="dropdown">
+						<i class="icon-lifebuoy mr-2"></i>
+						เกี่ยวกับระบบ
+					</a>
+
+					<div class="dropdown-menu">
+						<div class="dropdown-header">รายละเอียดและเอกสาร</div>
+						<a href="/about/app" class="dropdown-item"><i class="icon-lifebuoy"></i> เกี่ยวกับระบบ</a>
+						<a href="/about/doc" class="dropdown-item"><i class="icon-archive"></i> ระเบียนและเอกสาร</a>
+						<a href="/about/manual" class="dropdown-item"><i class="icon-bookmark"></i> คู่มือการใช้งาน</a>
+						<div class="dropdown-header">ติดต่อ</div>
+						<a href="/about/contact" class="dropdown-item"><i class="icon-address-book3"></i> ติดต่อ</a>
+					</div>
+				</li>
+			</ul>
+
+		</div>
+	</div>
+	<!-- /secondary navbar -->
+
+
+	<!-- Page header -->
+	<% if(show_title){ %>
+	<div class="page-header">
+		<div class="page-header-content header-elements-md-inline">
+			<div class="page-title d-flex">
+				<h4><i class="icon-checkbox-partial mr-2"></i> <span class="font-weight-semibold"><%=title %></span></h4>
+				<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+			</div>
+
+			<!-- <div class="header-elements d-none py-0 mb-3 mb-md-0">
+				<div class="breadcrumb">
+					<a href="/" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> หน้าหลัก</a>
+					<span class="breadcrumb-item active">__</span>
+				</div>
+			</div> -->
+		</div>
+	</div>
+	<% } %>
+	<!-- /page header -->
+		
+
+	<!-- Page content -->
+	<div class="page-content pt-0">
+
+		<!-- Main content -->
+		<div class="content-wrapper">
+
+			<!-- Content area -->
+			<div class="content">
