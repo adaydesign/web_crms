@@ -7,13 +7,109 @@
 
         <div class="card">
             <div class="card-header header-elements-inline">
-                <h6 class="card-title">ค่าบำรุงประจำเดือน</h6>
+                <h6 class="card-title">รายการค่าบำรุงรายเดือน</h6>
             </div>
 
             <div class="card-body py-0">
-                <br>
-                <br>
-                <br>
+                <div class="row">
+                    <div class="col-3 col-form-label text-right">
+                        ปี พ.ศ.
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control">
+                            <option>2563</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 col-form-label text-right">
+                        เดือน
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control">
+                            <option>ทุกเดือน</option>
+                            <option>มกราคม</option>
+                            <option>กุมภาพันธ์</option>
+                            <option>มีนาคม</option>
+                            <option>เมษายน</option>
+                            <option>พฤษภาคม</option>
+                            <option>มิถุนายน</option>
+                            <option>กรกฎาคม</option>
+                            <option>สิงหาคม</option>
+                            <option>กันยายน</option>
+                            <option>ตุลาคม</option>
+                            <option>พฤศจิกายน</option>
+                            <option>ธันวาคม</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <div class="row mb-3">
+                    <div class="col">
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th style="width: 20px;" class="text-center">#</th>
+                                    <th class="text-center">เดือน</th>
+                                    <th class="text-center">ปี</th>
+                                    <th class="text-center">ค่าบำรุง</th>
+                                    <th class="text-center">ค่าน้ำประปา</th>
+                                    <th class="text-center">รวม</th>
+                                    <th class="text-center" style="width: 100px;">แจ้งจ่ายบิล</th>
+                                    <th class="text-center" style="width: 100px;">แจ้งจ่ายบิล</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                const tableData = [
+                                    {month:1, year:2563, bill:780, bill_water:120, status:1 },
+                                    {month:2, year:2563, bill:780, bill_water:110, status:1 },
+                                    {month:3, year:2563, bill:780, bill_water:80, status:0 },
+                                ]
+
+                                const monthName = ["มกราคม","กุมภาพันธ์","มีนาคม"]
+                                const statusIcon = ["icon-cross3","icon-checkmark2"]
+                                
+                                // mapping
+                                tableData.map(item => {
+                                    item.month_name = monthName[item.month-1]
+                                    item.bill_total = item.bill + item.bill_water
+                                    let sColor = ''
+                                    switch(item.status){
+                                        case 0: sColor = 'text-danger';  break 
+                                        case 1: sColor = 'text-success'; break
+                                    }
+                                    item.status_text = `<badge class="${sColor}"><i class="${statusIcon[item.status]}"></i></badge>`
+
+                                    return item
+                                })
+
+                                tableData.forEach( (item,index) => {
+                                %>
+                                <tr>
+                                    <th class="text-center"><%=index+1 %></th>
+                                    <th class="text-center"><%=item.month_name %></th>
+                                    <th class="text-center"><%=item.year %></th>
+                                    <th class="text-center"><%=item.bill %></th>
+                                    <th class="text-center"><%=item.bill_water %></th>
+                                    <th class="text-center"><%=item.bill_total %></th>
+                                    <th class="text-center"><%-item.status_text %></th>
+
+                                    <% if(item.status == 0){ %>
+                                    <th class="text-center"><button class="btn btn-danger btn-sm btn_send"><i
+                                                class="icon-new-tab2"></i></button></th>
+                                    <% }else{ %>
+                                    <th class="text-center"><button class="btn btn-info btn-sm btn_edit"><i
+                                                class="icon-info3"></i></button></th>
+                                    <% } %>
+                                </tr>
+                                <%
+                                })
+                                %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -21,5 +117,191 @@
 
 </div>
 <!-- /content -->
+
+<!-- Modal -->
+<!-- Modal Form Send -->
+<div id="modal_form_send" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title">แจ้งการจ่ายค่าบำรุงรายเดือน</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>ประจำเดือน</label>
+                                <input type="text" placeholder="เดือน" class="form-control" value="มีนาคม" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ค่าบำรุง (บาท)</label>
+                                <input type="text" placeholder="ค่าบำรุง" class="form-control" value="780" readonly>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>ค่าน้ำประปา (บาท)</label>
+                                <input type="text" placeholder="ค่าน้ำประปา" class="form-control" value="80" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>รวมค่าบำรุงทั้งหมด (บาท)</label>
+                                <input type="text" placeholder="รวม" class="form-control" value="860" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>แนบไฟล์หลักฐานการจ่ายเงิน</label>
+                                <input type="file">
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn bg-danger">บันทึกข้อมูลการแจ้งจ่ายบิล</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Form Edit -->
+<div id="modal_form_edit" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title">รายละเอียดการแจ้งการจ่ายค่าบำรุงรายเดือน</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>ประจำเดือน</label>
+                                <input type="text" placeholder="เดือน" class="form-control" value="มกราคม" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ห้องที่</label>
+                                <input type="text" placeholder="ห้องที่" class="form-control" value="A110" readonly>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>อาคารชุด</label>
+                                <input type="text" placeholder="อาคารชุด" class="form-control" value="อาคารที่พักข้าราชการศาลยุติธรรม ซอยเสนานิคม 1 " readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>ผู้อยู่อาศัย</label>
+                                <input type="text" placeholder="ผู้อยู่อาศัย" class="form-control" value="นายสวัสดี มีโชค" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ค่าบำรุง (บาท)</label>
+                                <input type="text" placeholder="ค่าบำรุง" class="form-control" value="780" readonly>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>ค่าน้ำประปา (บาท)</label>
+                                <input type="text" placeholder="ค่าน้ำประปา" class="form-control" value="80" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>รวมค่าบำรุงทั้งหมด (บาท)</label>
+                                <input type="text" placeholder="รวม" class="form-control" value="860" readonly>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>วันที่แจ้งจ่าย</label>
+                                <input type="text" placeholder="วันที่แจ้งจ่าย" class="form-control" value="2 มกราคม 2563 เวลา 10.09 น." readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>หลักฐานการจ่ายบิล</label>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <label><a href="#">1. หลักฐานการโอนเงิน</a></label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button class="btn btn-danger btn-sm">ลบไฟล์</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>สถานะการตรวจสอบ</label>
+                                <input type="text" placeholder="สถานะการตรวจสอบ" class="form-control" value="ผู้ดูแลตรวจสอบแล้ว" readonly>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>วันที่ตรวจสอบ</label>
+                                <input type="text" placeholder="วันที่ตรวจสอบ" class="form-control" value="2 มกราคม 2563 เวลา 15.47 น." readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- In page script -->
+<script>
+    $(() => {
+        // Event : button send click
+        $(".btn_send").click(() => {
+            $('#modal_form_send').modal('show')
+        })
+        // Event : button edit click
+        $(".btn_edit").click(() => {
+            $('#modal_form_edit').modal('show')
+        })
+    })
+</script>
 
 <%- include('__footer') %>
