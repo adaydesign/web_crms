@@ -11,6 +11,94 @@
             </div>
 
             <div class="card-body py-0">
+
+                <div class="row">
+                    <div class="col-1 col-form-label offset-1">
+                        อาคารชุด
+                    </div>
+                    <div class="col-3">
+                        <select class="form-control">
+                            <option>ตลิ่งชัน 96</option>
+                            <option>ตลิ่งชัน 50</option>
+                            <option>เสนานิคม</option>
+                   
+                        </select>
+                    </div>
+            
+                    <div class="col-1 col-form-label text-right">
+                        ระดับ
+                    </div>
+                    <div class="col-3">
+                        <select class="form-control">
+                            <option>ชำนาญการพิเศษ</option>
+                            <option>ชำนาญการ</option>
+                            <option>ปฏิบัติการ</option>
+                        </select>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+               
+                    <div class="col-3 offset-1">
+                        <div class="form-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
+                              <label class="form-check-label" for="invalidCheck2">
+                                แสดงเฉพาะลำดับของตนเอง
+                              </label>
+                            </div>
+                          </div>
+                    </div>
+
+                </div>
+                <hr>
+                <h3>จำนวนคิว 9</h3>
+                <div class="row mb-3">
+                    <div class="col">
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th style="width: 20px;" class="text-center">#</th>
+                                    <th class="text-center">ชื่อ-นามสกุล</th>
+                                    <th class="text-center">หน่วยงาน</th>
+                                    <th class="text-center">ที่อยู่</th>
+                                    <th class="text-center">วันที่ยื่น</th>
+                         
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                const tableData = [
+                                    {date:"1 มี.ค. 63", office:"สำนักเทคโนโลยีสารสนเทศ", address:"จตุจักร กรุงเทพฯ", host:"นายวังใหญ่ ใจสะอาด"},
+                                    {date:"5 มี.ค. 63", office:"สำนักการคลัง", address:"ดินแดง กรุงเทพฯ", host:"นายมนูญ จันทร์ดี"},
+                                    {date:"6 มี.ค. 63", office:"สำนักเทคโนโลยีสารสนเทศ", address:"ลาดพร้าว กรุงเทพฯ", host:"นายยิ่งยง ยอดเยี่ยม"},
+                                    {date:"10 มี.ค. 63", office:"สำนักเทคโนโลยีสารสนเทศ", address:"จตุจักร กรุงเทพฯ", host:"นายสมชาติ ชาติทหารรบ"},
+                                    {date:"26 มี.ค. 63", office:"สำนักบริหารทรัพย์สิน", address:"จตุจักร กรุงเทพฯ", host:"นายสมหวัง ใจดี"},
+                                    {date:"26 มี.ค. 63", office:"สำนักบริหารกลาง", address:"รังสิต ปทุมธานี", host:"นายราชบัญ นิติธรรม"},
+                                    {date:"1 มี.ค. 63", office:"สำนักเจ้าหน้าที่", address:"จตุจักร กรุงเทพฯ", host:"นายบุญเย็น ธรรมคุ้มครอง"},
+                                    {date:"1 มี.ค. 63", office:"กองสวัสดิการฯ", address:"รังสิต ปทุมธานี", host:"นางสาวสวาทจิต อยูเย็น"},
+                                    {date:"1 มี.ค. 63", office:"สำนักเจ้าหน้าที่", address:"จตุจักร กรุงเทพฯ", host:"นางสาวยอดคิด สนิทใจ"},
+                                ]
+
+                   
+
+                                tableData.forEach( (item, index) => {
+                                %>
+                                <tr>
+                                    <th class="text-center"><%=index+1 %></th>
+                                    <th class=""><%=item.host %></th>
+                                    <th class=""><%=item.office %></th>
+                                    <th class=""><%-item.address %></th>
+                                    <th class="text-center"><%-item.date %></th>
+                                  
+                                </tr>
+                                <%
+                                })
+                                %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <br>
                 <br>
                 <br>
