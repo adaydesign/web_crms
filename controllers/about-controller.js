@@ -31,8 +31,7 @@ exports.pageRender = (req, res) => {
     }else if(ppage == "contact"){
         pageRender = "about_contact"
     }else{
-        res.redirect('./')
-        return
+        res.redirect('../')
     }
 
     res.render(pageRender, params)

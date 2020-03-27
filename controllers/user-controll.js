@@ -27,14 +27,13 @@ exports.pageRender = (req, res) => {
     }else if(ppage == "edit"){
         pageRender = "user_edit"
     }else{
-        res.redirect('./')
-        return
+        res.redirect('../')
     }
 
       // render
       if (req.session.user != null) {
         res.render(pageRender, params)
     }else{
-        res.redirect('./')
+        res.redirect('../')
     }
 }

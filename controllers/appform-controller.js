@@ -36,11 +36,18 @@ exports.pageRender = (req, res) => {
     }else if(ppage == "approve"){
         pageRender = "appform_approve"
     }else{
-        res.redirect('./')
-        return
+        res.redirect('../')
     }
 
     // render
-    res.render(pageRender, params)
+    if(ppage == "approve"){
+        if (req.session.user != null) {
+            res.render(pageRender, params)
+        }else{
+            res.redirect('../')
+        }
+    }else{
+        res.render(pageRender, params)
+    }
     
 }

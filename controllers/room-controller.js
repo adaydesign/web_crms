@@ -31,14 +31,13 @@ exports.pageRender = (req, res) => {
     }else if(ppage == "water"){
         pageRender = "room_water"
     }else{
-        res.redirect('./')
-        return
+        res.redirect('../')
     }
 
       // render
       if (req.session.user != null) {
         res.render(pageRender, params)
     }else{
-        res.redirect('./')
+        res.redirect('../')
     }
 }
