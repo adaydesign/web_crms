@@ -92,10 +92,10 @@
                                     return item
                                 })
 
-                                tableData.forEach( item => {
+                                tableData.forEach( (item,index) => {
                                 %>
                                 <tr>
-                                    <th class="text-center">#</th>
+                                    <th class="text-center"><%=index+1 %></th>
                                     <th class="text-center"><%=item.username %></th>
                                     <th class="text-center"><%=item.fullname %></th>
                                     <th class="text-center"><%-item.role_text %></th>
@@ -274,7 +274,7 @@
     </div>
 </div>
 
-<!-- Modal Form Info -->
+<!-- Modal Form Edit -->
 <div id="modal_form_edit" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
