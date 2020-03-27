@@ -8,12 +8,110 @@
         <div class="card">
             <div class="card-header header-elements-inline">
                 <h6 class="card-title">จัดการข้อมูลสมาชิก</h6>
+
+                <div class="header-elements">
+                    <button class="btn btn-primary" id="btn_add"><i
+                            class="icon-plus3 mr-2"></i>เพิ่มข้อมูลสมาชิก</button>
+                </div>
             </div>
 
             <div class="card-body py-0">
-                <br>
-                <br>
-                <br>
+                <div class="row">
+                    <div class="col-3 col-form-label text-right">
+                        ประเภท
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control">
+                            <option>ทุกประเภท</option>
+                            <option>เจ้าหน้าที่กองสวัสดิการ</option>
+                            <option>ผู้ดูและประจำอาคาร</option>
+                            <option>ผู้อยู่อาศัย</option>
+                            <option>ผู้ใช้ทั่วไป</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 col-form-label text-right">
+                        การใช้งาน
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control">
+                            <option>ทุกประเภท</option>
+                            <option>Active</option>
+                            <option>Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <div class="row mb-3">
+                    <div class="col">
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th style="width: 20px;" class="text-center">#</th>
+                                    <th class="text-center">username</th>
+                                    <th class="text-center">ชื่อ-นามสกุล</th>
+                                    <th class="text-center">ประเภท</th>
+                                    <th class="text-center">active</th>
+                                    <th class="text-center" style="width: 60px;">info</th>
+                                    <th class="text-center" style="width: 60px;">edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                const tableData = [
+                                    {username:"admin1", fullname:"นางสาวสุดสวย ชอบจัดการ", role:1, active:1},
+                                    {username:"officer1", fullname:"นางสาวสุภาพ มีโชค", role:2, active:1},
+                                    {username:"officer2", fullname:"นางสาวปราณี ทวีทรัพย์", role:2, active:1},
+                                    {username:"officer3", fullname:"นายบุญชัย เกิดศิริ", role:2, active:1},
+                                    {username:"officer4", fullname:"นายยุทธพงษ์ หอมจันทร์แก้ว", role:2, active:0},
+                                    {username:"112909999990", fullname:"นายสุพจน์ นรินทร์", role:3, active:1},
+                                    {username:"139992338882", fullname:"นายสุรศักดิ์ ภักดีจันทร์", role:3, active:1},
+                                    {username:"167722377772", fullname:"นางสุภา ศรีวรรณี", role:3, active:1},
+                                    {username:"187777232220", fullname:"นางสาวมฤดี ใจเย็น", role:3, active:0},
+                                    {username:"167553423009", fullname:"นางสาวแก้ว ศรีโชค", role:4, active:0},
+                                ]
+
+                                const userType = ["เจ้าหน้าที่กองสวัสดิการ","ผู้ดูแลประจำอาคาร","ผู้อยู่อาศัย","ผู้ใช้ทั่วไป"]
+                                const activeType = ["active","inactive"]
+                                
+                                // mapping
+                                tableData.map(item => {
+                                    item.role_name = userType[item.role-1]
+                                    let rColor = ''
+                                    switch(item.role){
+                                        case 1: rColor = 'text-danger';  break 
+                                        case 2: rColor = 'text-info';    break
+                                        case 3: rColor = 'text-success'; break
+                                    }
+                                    item.role_text = `<text class="${rColor}">${item.role_name}</text>`
+
+                                    item.active_status = activeType[item.active]
+                                    const atColor = item.active == 1 ? 'bg-success':'bg-danger'
+                                    item.active_text = `<badge class="badge ${atColor}">${item.active_status}</badge>`
+                                    return item
+                                })
+
+                                tableData.forEach( item => {
+                                %>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center"><%=item.username %></th>
+                                    <th class="text-center"><%=item.fullname %></th>
+                                    <th class="text-center"><%-item.role_text %></th>
+                                    <th class="text-center"><%-item.active_text %></th>
+                                    <th class="text-center"><button class="btn btn-info btn-sm btn_info"><i
+                                                class="icon-info3"></i></button></th>
+                                    <th class="text-center"><button class="btn btn-warning btn-sm btn_edit"><i
+                                                class="icon-pencil7"></i></button></th>
+                                </tr>
+                                <%
+                                })
+                                %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -21,5 +119,255 @@
 
 </div>
 <!-- /content -->
+
+<!-- Modal -->
+<!-- Modal Form Add -->
+<div id="modal_form_add" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title">เพิ่มข้อมูลสมาชิก</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Username</label>
+                                <input type="text" placeholder="ชื่อบัญชีผู้ใช้" class="form-control">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Password</label>
+                                <input type="password" placeholder="รหัสผ่าน" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ชื่อ-นามสกุล</label>
+                                <input type="text" placeholder="ชื่อ-นามสกุล" class="form-control">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>หน่วยงาน</label>
+                                <select class="form-control">
+                                    <option>สำนักงานศาลยุติธรรม</option>
+                                    <option>สำนักงานศาลยุติธรรม</option>
+                                    <option>สำนักงานศาลยุติธรรม</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ประเภท</label>
+                                <select class="form-control">
+                                    <option>เจ้าหน้าที่กองสวัสดิการ</option>
+                                    <option>ผู้ดูแลประจำอาคาร</option>
+                                    <option>ผู้อยู่อาศัย</option>
+                                    <option>ผู้ใช้ทั่วไป</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>สถานะ</label>
+                                <select class="form-control">
+                                    <option>Active</option>
+                                    <option>Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn bg-primary">เพิ่มข้อมูล</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Form Info -->
+<div id="modal_form_info" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title">รายละเอียดข้อมูลสมาชิก</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Username</label>
+                                <input type="text" placeholder="ชื่อบัญชีผู้ใช้" class="form-control" value="admin1" readonly>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Password</label>
+                                <input type="password" placeholder="รหัสผ่าน" class="form-control" value="000000" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ชื่อ-นามสกุล</label>
+                                <input type="text" placeholder="ชื่อ-นามสกุล" class="form-control" value="นางสาวสุดสวย ชอบจัดการ" readonly>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>หน่วยงาน</label>
+                                <select class="form-control" readonly>
+                                    <option>สำนักงานศาลยุติธรรม</option>
+                                    <option>สำนักงานศาลยุติธรรม</option>
+                                    <option>สำนักงานศาลยุติธรรม</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ประเภท</label>
+                                <select class="form-control" readonly>
+                                    <option>เจ้าหน้าที่กองสวัสดิการ</option>
+                                    <option>ผู้ดูแลประจำอาคาร</option>
+                                    <option>ผู้อยู่อาศัย</option>
+                                    <option>ผู้ใช้ทั่วไป</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>สถานะ</label>
+                                <select class="form-control" readonly>
+                                    <option>Active</option>
+                                    <option>Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Form Info -->
+<div id="modal_form_edit" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title">แก้ไขข้อมูลสมาชิก</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Username</label>
+                                <input type="text" placeholder="ชื่อบัญชีผู้ใช้" class="form-control"  value="admin1">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Password</label>
+                                <input type="password" placeholder="รหัสผ่าน" class="form-control" value="000000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ชื่อ-นามสกุล</label>
+                                <input type="text" placeholder="ชื่อ-นามสกุล" class="form-control" value="นางสาวสุดสวย ชอบจัดการ" >
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>หน่วยงาน</label>
+                                <select class="form-control">
+                                    <option>สำนักงานศาลยุติธรรม</option>
+                                    <option>สำนักงานศาลยุติธรรม</option>
+                                    <option>สำนักงานศาลยุติธรรม</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ประเภท</label>
+                                <select class="form-control">
+                                    <option>เจ้าหน้าที่กองสวัสดิการ</option>
+                                    <option>ผู้ดูแลประจำอาคาร</option>
+                                    <option>ผู้อยู่อาศัย</option>
+                                    <option>ผู้ใช้ทั่วไป</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>สถานะ</label>
+                                <select class="form-control">
+                                    <option>Active</option>
+                                    <option>Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn bg-primary">แก้ไขข้อมูล</button>
+                    <button type="submit" class="btn bg-danger">ลบข้อมูล</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- In page script -->
+<script>
+    $(() => {
+        // Event : button info click
+        $(".btn_info").click(() => {
+            $('#modal_form_info').modal('show')
+        })
+        // Event : button edit click
+        $(".btn_edit").click(() => {
+            $('#modal_form_edit').modal('show')
+        })
+        // Event : button add click
+        $("#btn_add").click(() => {
+            $('#modal_form_add').modal('show')
+        })
+    })
+</script>
 
 <%- include('__footer') %>
