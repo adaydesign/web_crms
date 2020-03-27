@@ -5,17 +5,157 @@
 <div class="row">
     <div class="col-12">
 
-        <div class="card">
-            <div class="card-header header-elements-inline">
-                <h6 class="card-title">ลงทะเบียนคำร้อง ขั้นตอนที่ 1</h6>
-            </div>
+      <ol class="progress progress--medium">
+              <li class="is-active" data-step="1">
+                ลงทะเบียนคำร้อง
+              </li>
+              <li  data-step="2">
+                ยืนยันข้อมูล
+              </li>
+              <li data-step="3" class="progress__last">
+                ยื่นคำร้องเสร็จสิ้น
+              </li>
+            </ol>
 
+        <div class="card">
+            <!-- <div class="card-header header-elements-inline">
+                <h6 class="card-title">ลงทะเบียนคำร้อง ขั้นตอนที่ 1</h6>
+            </div> -->
+
+            
+
+            
             <div class="card-body py-0">
-                <br>
-                <br>
-                <br>
-                <a href="/appform/register2" class="btn btn-primary mb-3">ดำเนินการต่อ ></a>
-            </div>
+                <form class="pad-3">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="ชื่อ">
+                      </div>
+                      <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="นามสกุล">
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="ตำแหน่ง">
+                      </div>
+                      <div class="col-md-4">
+                        <select class="form-control">
+                            <option>เลือก ประเภท</option>
+                            <option>บริหาร</option>
+                            <option>วิชาการ</option>
+                            <option>ทั่วไป</option>
+                          </select>
+                      </div>
+                      <div class="col-md-4">
+                        <select class="form-control">
+                            <option>เลือก ระดับ</option>
+                            <option>ชำนาญการพิเศษ</option>
+                            <option>ชำนาญการ</option>
+                            <option>ปฏิบัติการ</option>
+                          </select>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                          <select class="form-control">
+                              <option>เลือก สังกัด</option>
+                              <option>สำนักเทคโนโลยีสารสนเทศ</option>
+                              <option>สำนักการคลัง</option>
+                              <option>สำนักบริหารทรัพย์สิน</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="เลขบัตรประชาชน">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="date" class="form-control" placeholder="วันเดือนปีเกิด">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="ที่อยู่ที่สามารถติดต่อได้">
+                        </div>
+                    </div>
+
+                    <br>
+                    <br>
+                    <h6 class="card-title">มีความประสงค์ขอเข้าพัก</h6>
+                 
+                    <div class="col-md-4 offset-md-1">
+                    <div class="row">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">อาคารชุดที่พักตลิ่งชัน</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                        <label class="form-check-label" for="inlineCheckbox2">อาคารชุดที่พักเสนานิคม</label>
+                      </div>
+                    </div>
+                      <div class="row">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                        <label class="form-check-label" for="inlineCheckbox3">อาคารชุดที่พักเสนานิคม2</label>
+                      </div>
+                    </div>
+                  </div>
+                    <br>
+                    <br>
+                    <h6 class="card-title">เอกสารประกอบ</h6>
+                 
+                    <div class="col-md-4 offset-md-1">
+                    <div class="row">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">สำเนาบัตรข้าราชการ</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                        <label class="form-check-label" for="inlineCheckbox2">สำเนาเอกสารการเปลี่ยนชื่อ (ถ้ามี)</label>
+                      </div>
+                    </div>
+                      <div class="row">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                        <label class="form-check-label" for="inlineCheckbox3">สำเนาทะเบียนบ้าน</label>
+                      </div>
+                    </div>
+                  </div>
+
+                    <br>
+                    <br>
+                    <h6 class="card-title">แนบไฟล์</h6>
+                    <div class="col-md-4 offset-md-1">
+                      <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+                          <label class="custom-file-label" for="validatedCustomFile">เลือกไฟล์</label>
+                          <!-- <div class="invalid-feedback">Example invalid custom file feedback</div> -->
+                        </div>
+                    </div>
+
+                  </form>
+                  <br>
+                  <br>
+                  <br>
+                  <div class="row">
+                    <div class="col-md-12 text-cen">
+                      <a href="/appform/register2" class="btn btn-primary mb-3">บันทึกข้อมูล</a>
+                      <a href="" class="btn btn-danger mb-3">ยกเลิก</a>
+                    </div>
+                  </div>
+          </div>
         </div>
 
     </div>
