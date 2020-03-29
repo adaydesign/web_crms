@@ -11,9 +11,99 @@
             </div>
 
             <div class="card-body py-0">
-                <br>
-                <br>
-                <br>
+                <div class="row">
+                    <!-- <div class="col-3 col-form-label text-right">
+                        ประเภท
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control">
+                            <option>ทุกประเภท</option>
+                            <option>เจ้าหน้าที่กองสวัสดิการ</option>
+                            <option>ผู้ดูและประจำอาคาร</option>
+                            <option>ผู้อยู่อาศัย</option>
+                            <option>ผู้ใช้ทั่วไป</option>
+                        </select>
+                    </div> -->
+                </div>
+                <!-- <div class="row">
+                    <div class="col-3 col-form-label text-right">
+                        การใช้งาน
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control">
+                            <option>ทุกประเภท</option>
+                            <option>Active</option>
+                            <option>Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <hr> -->
+                <div class="row mb-3">
+                    <div class="col">
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th colspan="4" bgcolor="#004D40" class="text-center">รายการประวัติการแจ้งยอดการใช้น้ำแยกรายเดือน</th>
+                                    <th bgcolor="#fff" class="text-center">
+                                        <button class="btn btn-success btn-sm btn_add_reciept_water"><i class="icon-plus22"></i></button>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 20px;" class="text-center">#</th>
+                                    <th class="text-center">เดือน</th>
+                                    <th class="text-center">จำนวนการใช้น้ำ</th>
+                                    <th class="text-center">active water</th>
+                                    <th class="text-center" style="width: 60px;">edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                const tableData = [
+                                    {month:"ตุลาคม  2562", water_use:2.6, active_w:1},
+                                    {month:"พฤศจิกายน  2562", water_use:3.1, active_w:1},
+                                    {month:"ธันวาคม  2562", water_use:2.4, active_w:0},
+                                    {month:"มกราคม  2563", water_use:3.5, active_w:0},
+                                    {month:"กุมภาพันธ์  2563", water_use:3.1, active_w:1},
+                                ]
+
+                                const activeType = ["active","inactive"]
+                                
+                                // mapping
+                                tableData.map(item => {
+                                    // item.water_use_name = userType[item.water_use-1]
+                                    let rColor = ''
+                                    switch(item.water_use){
+                                        case 1: rColor = 'text-danger';  break 
+                                        case 2: rColor = 'text-info';    break
+                                        case 3: rColor = 'text-success'; break
+                                    }
+                                    item.water_use_text = `<text class="${rColor}">${item.water_use}</text>`
+
+                                    item.active_w_status = activeType[item.active_w]
+
+                                    const atColor = item.active_w == 1 ? 'bg-success':'bg-danger'
+
+                                    item.active_w_text = `<badge class="badge ${atColor}">${item.active_w_status}</badge>`
+                                    return item
+                                })
+
+                                tableData.forEach( (item,index) => {
+                                %>
+                                <tr>
+                                    <th class="text-center"><%=index+1 %></th>
+                                    <th class="text-center"><%=item.month %></th>
+                                    <th class="text-center"><%-item.water_use_text %> หน่วย</th>
+                                    <th class="text-center"><%-item.active_w_text %></th>
+                                    <!-- <th class="text-center"><button class="btn btn-info btn-sm btn_info"><i class="icon-info3"></i></button></th> -->
+                                    <th class="text-center"><button class="btn btn-info btn-sm btn_edit_reciept_water"><i class="icon-pencil7"></i></button></th>
+                                </tr>
+                                <%
+                                })
+                                %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -22,4 +112,162 @@
 </div>
 <!-- /content -->
 
-<%- include('__footer') %>
+<!-- Modal -->
+<!-- Modal Form Add -->
+<div id="modal_add_reciept_water" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h5 class="modal-title">แจ้งยอดการใช้น้ำประปา</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>กรอกยอดการใช้น้ำประปา</label>
+                                <input type="number" id="result_water" placeholder="ระบุจำนวนการใช้น้ำ" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ชื่อ-นามสกุล</label>
+                                <input type="text" placeholder="ชื่อ-นามสกุล" class="form-control">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>หน่วยงาน</label>
+                                <select class="form-control">
+                                    <option>สำนักงานศาลยุติธรรม</option>
+                                    <option>สำนักงานศาลยุติธรรม</option>
+                                    <option>สำนักงานศาลยุติธรรม</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ประเภท</label>
+                                <select class="form-control">
+                                    <option>เจ้าหน้าที่กองสวัสดิการ</option>
+                                    <option>ผู้ดูแลประจำอาคาร</option>
+                                    <option>ผู้อยู่อาศัย</option>
+                                    <option>ผู้ใช้ทั่วไป</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>สถานะ</label>
+                                <select class="form-control">
+                                    <option>Active</option>
+                                    <option>Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div> -->
+
+                   
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn bg-primary">ยืนยัน</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="modal_edit_reciept_water" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title">แก้ไขข้อมูลการแจ้งยอดการใช้น้ำประปา</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>แก้ไขยอดการใช้น้ำประปา</label>
+                                <input type="number" placeholder="ระบุแก้ไขยอดจำนวนการใช้น้ำ" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ชื่อ-นามสกุล</label>
+                                <input type="text" placeholder="ชื่อ-นามสกุล" class="form-control">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>หน่วยงาน</label>
+                                <select class="form-control">
+                                    <option>สำนักงานศาลยุติธรรม</option>
+                                    <option>สำนักงานศาลยุติธรรม</option>
+                                    <option>สำนักงานศาลยุติธรรม</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ประเภท</label>
+                                <select class="form-control">
+                                    <option>เจ้าหน้าที่กองสวัสดิการ</option>
+                                    <option>ผู้ดูแลประจำอาคาร</option>
+                                    <option>ผู้อยู่อาศัย</option>
+                                    <option>ผู้ใช้ทั่วไป</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>สถานะ</label>
+                                <select class="form-control">
+                                    <option>Active</option>
+                                    <option>Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div> -->
+
+                   
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn bg-primary">ยืนยัน</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- In page script -->
+<script>
+    $(() => {
+        // Event : button add click
+        $(".btn_add_reciept_water").click(() => {
+            $('#modal_add_reciept_water').modal('show')
+        })
+        $(".btn_edit_reciept_water").click(() => {
+            document.getElementById("myText").value = "Johnny Bravo";
+            $('#modal_edit_reciept_water').modal('show')
+        })
+    })
+</script>
+
+<%- include('__footer') %>  

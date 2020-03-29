@@ -11,9 +11,102 @@
             </div>
 
             <div class="card-body py-0">
-                <br>
-                <br>
-                <br>
+                <div class="row">
+                    <!-- <div class="col-3 col-form-label text-right">
+                        ประเภท
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control">
+                            <option>ทุกประเภท</option>
+                            <option>เจ้าหน้าที่กองสวัสดิการ</option>
+                            <option>ผู้ดูและประจำอาคาร</option>
+                            <option>ผู้อยู่อาศัย</option>
+                            <option>ผู้ใช้ทั่วไป</option>
+                        </select>
+                    </div> -->
+                </div>
+                <!-- <div class="row">
+                    <div class="col-3 col-form-label text-right">
+                        การใช้งาน
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control">
+                            <option>ทุกประเภท</option>
+                            <option>Active</option>
+                            <option>Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <hr> -->
+                <div class="row mb-3">
+                    <div class="col">
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th style="width: 20px;" class="text-center">#</th>
+                                    <th class="text-center">อาคารชุด</th>
+                                    <th class="text-center">ห้องพัก</th>
+                                    <th class="text-center">สถานะ</th>
+                                    <th class="text-center">ผู้อยู่อาศัย</th>
+                                    <th class="text-center">สถานะอนุมัติ</th>
+                                    <th class="text-center" style="width: 60px;">edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                const tableData = [
+                                    {building:1, room_name:"A101", status:1, host:"นายวังใหญ่ ใจสะอาด", active_a:1},
+                                    {building:1, room_name:"A102", status:1, host:"นายมนูญ จันทร์ดี", active_a:0},
+                                    {building:1, room_name:"A103", status:1, host:"นายยิ่งยง ยอดเยี่ยม", active_a:1},
+                                    {building:1, room_name:"A104", status:1, host:"นายสมชาติ ชาติทหารรบ", active_a:1},
+                                    {building:1, room_name:"A105", status:1, host:"นายสมหวัง ใจดี", active_a:1},
+                                    {building:1, room_name:"A106", status:1, host:"นายราชบัญ นิติธรรม", active_a:1},
+                                    {building:1, room_name:"A107", status:1, host:"นายบุญเย็น ธรรมคุ้มครอง", active_a:0},
+                                    {building:2, room_name:"A108", status:1, host:"นางสาวสวาทจิต อยูเย็น", active_a:1},
+                                    {building:2, room_name:"A109", status:0, host:"-", active_a:0},
+                                    {building:2, room_name:"A110", status:1, host:"นางสาวยอดคิด สนิทใจ", active_a:1},
+                                ]
+
+                                const audit = ["inactive","active"]
+                                const buildName = ["ตลิ่งชัน 96","ตลิ่งชัน 50","เสนานิคม"]
+                                const statusName = ["ว่าง","มีผู้อยู่อาศัย","ปรับปรุง"]
+                                
+                                // mapping
+                                tableData.map(item => {
+                                    item.building_name = buildName[item.building-1]
+                                    let sColor = ''
+                                    switch(item.status){
+                                        case 0: sColor = 'text-danger';  break 
+                                        case 1: sColor = 'text-primary'; break
+                                        case 2: sColor = 'text-warning'; break
+                                    }
+
+                                    const at_aColor = item.active_a == 1 ? 'bg-success':'bg-danger'
+
+                                    item.status_text = `<text class="badge ${sColor}">${statusName[item.status]}</text>`
+                                    item.status_audit = `<text class="badge ${at_aColor}">${audit[item.active_a]}</text>`
+
+                                    return item
+                                })
+
+                                tableData.forEach( (item, index) => {
+                                %>
+                                <tr>
+                                    <th class="text-center"><%=index+1 %></th>
+                                    <th class="text-center"><%=item.building_name %></th>
+                                    <th class="text-center"><%=item.room_name %></th>
+                                    <th class="text-center"><%-item.status_text %></th>
+                                    <th class="text-center"><%-item.host %></th>
+                                    <th class="text-center"><%-item.status_audit %></th>
+                                    <th class="text-center"><button class="btn btn-info btn-sm btn_audit_material"><i class="icon-pencil7"></i></button></th>
+                                </tr>
+                                <%
+                                })
+                                %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -22,4 +115,580 @@
 </div>
 <!-- /content -->
 
-<%- include('__footer') %>
+<!-- Modal -->
+<!-- Modal Form Add -->
+<div id="modal_form_add" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title">เพิ่มข้อมูลห้องพัก</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>อาคารชุด</label>
+                                <select class="form-control">
+                                    <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 96 หน่วย (ตลิ่งชัน)</option>
+                                    <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 50 หน่วย (ตลิ่งชัน) </option>
+                                    <option>อาคารที่พักข้าราชการศาลยุติธรรม ซอยเสนานิคม 1 </option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ห้องที่</label>
+                                <input type="text" placeholder="เลขที่ห้อง/ชื่อห้อง" class="form-control">
+                            </div>
+                            <div class="col-sm-6">
+                                <label>ตึก</label>
+                                <select class="form-control">
+                                    <option>อาคาร A</option>
+                                    <option>อาคาร B</option>
+                                    <option>อาคาร C</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ค่าบำรุงรายเดือน(บาท)</label>
+                                <input type="text" placeholder="ค่าบำรุงเริ่มต้นต่อเดือน" class="form-control">
+                            </div>
+                            <div class="col-sm-6">
+                                <label>สถานะ</label>
+                                <select class="form-control">
+                                    <option>ว่าง</option>
+                                    <option>มีผู้อยู่อาศัย</option>
+                                    <option>ปรับปรุง</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn bg-primary">เพิ่มข้อมูล</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Form Info -->
+<div id="modal_form_info" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title">ข้อมูลห้องพัก</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>อาคารชุด</label>
+                                <select class="form-control" readonly>
+                                    <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 96 หน่วย (ตลิ่งชัน)</option>
+                                    <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 50 หน่วย (ตลิ่งชัน) </option>
+                                    <option>อาคารที่พักข้าราชการศาลยุติธรรม ซอยเสนานิคม 1 </option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ห้องที่</label>
+                                <input type="text" placeholder="เลขที่ห้อง/ชื่อห้อง" class="form-control" value="A101"
+                                    readonly>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>ตึก</label>
+                                <select class="form-control" readonly>
+                                    <option selected>อาคาร A</option>
+                                    <option>อาคาร B</option>
+                                    <option>อาคาร C</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ค่าบำรุงรายเดือน(บาท)</label>
+                                <input type="text" placeholder="ค่าบำรุงเริ่มต้นต่อเดือน" class="form-control"
+                                    value="1040" readonly>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>สถานะ</label>
+                                <select class="form-control" readonly>
+                                    <option>ว่าง</option>
+                                    <option selected>มีผู้อยู่อาศัย</option>
+                                    <option>ปรับปรุง</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>ผู้อยู่อาศัย</label>
+                                <input type="text" placeholder="ผู้อยู่อาศัย" class="form-control"
+                                    value="นายวังใหญ่ ใจสะอาด" readonly>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>สัญญาเลขที่</label>
+                                <input type="text" placeholder="สัญญาเลขที่" class="form-control" value="10-12/2563"
+                                    readonly>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>วันที่ทำสัญญา</label>
+                                <input type="text" placeholder="วันที่ทำสัญญา" class="form-control"
+                                    value="31 มีนาคม 2562" readonly>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>เอกสารประกอบ</label>
+                                <label><a href="#">1. เอกสารสัญญา</a></label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>สถานะครุภัณฑ์</label>
+                                <input type="text" placeholder="สถานะครุภัณฑ์" class="form-control"
+                                    value="ตรวจสอบสถานะก่อนเข้าพักเรียบร้อย" readonly>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>วันที่ตรวจสอบ</label>
+                                <input type="text" placeholder="วันที่ตรวจสอบ" class="form-control"
+                                    value="31 มีนาคม 2562" readonly>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Form Edit -->
+<div id="modal_form_edit" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title">แก้ไขข้อมูลห้องพัก</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>อาคารชุด</label>
+                                <select class="form-control">
+                                    <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 96 หน่วย (ตลิ่งชัน)</option>
+                                    <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 50 หน่วย (ตลิ่งชัน) </option>
+                                    <option>อาคารที่พักข้าราชการศาลยุติธรรม ซอยเสนานิคม 1 </option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ห้องที่</label>
+                                <input type="text" placeholder="เลขที่ห้อง/ชื่อห้อง" class="form-control" value="A101">
+                            </div>
+                            <div class="col-sm-6">
+                                <label>ตึก</label>
+                                <select class="form-control">
+                                    <option>อาคาร A</option>
+                                    <option>อาคาร B</option>
+                                    <option>อาคาร C</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ค่าบำรุงรายเดือน(บาท)</label>
+                                <input type="text" placeholder="ค่าบำรุงเริ่มต้นต่อเดือน" class="form-control"
+                                    value="1040">
+                            </div>
+                            <div class="col-sm-6">
+                                <label>สถานะ</label>
+                                <select class="form-control">
+                                    <option>ว่าง</option>
+                                    <option selected>มีผู้อยู่อาศัย</option>
+                                    <option>ปรับปรุง</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn bg-primary">แก้ไขข้อมูล</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Form Edit Host -->
+<div id="modal_form_host" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title">แก้ไขข้อมูลการเข้าพักอาศัย</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>อาคารชุด</label>
+                                <select class="form-control" readonly>
+                                    <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 96 หน่วย (ตลิ่งชัน)</option>
+                                    <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 50 หน่วย (ตลิ่งชัน) </option>
+                                    <option>อาคารที่พักข้าราชการศาลยุติธรรม ซอยเสนานิคม 1 </option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ห้องที่</label>
+                                <input type="text" placeholder="เลขที่ห้อง/ชื่อห้อง" class="form-control" value="A101"
+                                    readonly>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>ตึก</label>
+                                <select class="form-control" readonly>
+                                    <option selected>อาคาร A</option>
+                                    <option>อาคาร B</option>
+                                    <option>อาคาร C</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ค่าบำรุงรายเดือน(บาท)</label>
+                                <input type="text" placeholder="ค่าบำรุงเริ่มต้นต่อเดือน" class="form-control"
+                                    value="1040" readonly>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>สถานะ</label>
+                                <select class="form-control" readonly>
+                                    <option>ว่าง</option>
+                                    <option selected>มีผู้อยู่อาศัย</option>
+                                    <option>ปรับปรุง</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>ผู้อยู่อาศัย</label>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="ผู้อยู่อาศัย" class="form-control"
+                                            value="นายวังใหญ่ ใจสะอาด">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button class="btn btn-primary btn-sm">ค้นหา</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>สัญญาเลขที่</label>
+                                <input type="text" placeholder="สัญญาเลขที่" class="form-control" value="10-12/2563">
+                            </div>
+                            <div class="col-sm-6">
+                                <label>วันที่ทำสัญญา</label>
+                                <input type="text" placeholder="วันที่ทำสัญญา" class="form-control"
+                                    value="31 มีนาคม 2562">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <label>เอกสารประกอบ</label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button class="btn btn-primary btn-sm">เพิ่มเอกสาร</button>
+                                    </div>
+                                </div>
+                                <label><a href="#">1. เอกสารสัญญา</a></label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>สถานะครุภัณฑ์</label>
+                                <input type="text" placeholder="สถานะครุภัณฑ์" class="form-control"
+                                    value="ตรวจสอบสถานะก่อนเข้าพักเรียบร้อย">
+                            </div>
+                            <div class="col-sm-6">
+                                <label>วันที่ตรวจสอบ</label>
+                                <input type="text" placeholder="วันที่ตรวจสอบ" class="form-control"
+                                    value="31 มีนาคม 2562">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn bg-primary">แก้ไขข้อมูล</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="modal_form_delete" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title">ลบข้อมูลห้องพัก</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label class="h3">ต้องการลบข้อมูลนี้หรือไม่</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>อาคารชุด</label>
+                                <select class="form-control" readonly>
+                                    <option select>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 96 หน่วย (ตลิ่งชัน)
+                                    </option>
+                                    <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 50 หน่วย (ตลิ่งชัน) </option>
+                                    <option>อาคารที่พักข้าราชการศาลยุติธรรม ซอยเสนานิคม 1 </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ห้องที่</label>
+                                <input type="text" placeholder="เลขที่ห้อง/ชื่อห้อง" class="form-control" value="A101"
+                                    readonly>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>ตึก</label>
+                                <select class="form-control" readonly>
+                                    <option selected>อาคาร A</option>
+                                    <option>อาคาร B</option>
+                                    <option>อาคาร C</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn bg-danger">ลบข้อมูล</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="modal_audit_material" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title">ตรวจสอบอนุมัติครุภัณฑ์ห้องพัก</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th colspan="7" class="text-center">ตรวจอนุมัติครุภัณฑ์ห้องพักของนาย  [ <font color="red">นายวังใหญ่ ใจสะอาด</font> ]  ห้อง [ <font color="red">A101</font> ]</th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 20px;" class="text-center">#</th>
+                                    <th class="text-center">ชื่อครุภัณฑ์</th>
+                                    <th class="text-center">ประเภทครุภัณฑ์</th>
+                                    <th class="text-center">สถานะการใช้งาน</th>
+                                    <th class="text-center">สภาพปัจจุบัน</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                const tableData2 = [
+                                    {material_name:"เตียงนอน", type_material:"ครุภัณฑ์เครื่องใช้", status_use:1, natural_on_use:"ใช้งานได้ดี"},
+                                    {material_name:"ตู้เสื้อผ้า", type_material:"ครุภัณฑ์เครื่องใช้", status_use:2, natural_on_use:"ประตูบานพับไม่สนิท"},
+                                    {material_name:"โต๊ะทำงาน", type_material:"ครุภัณฑ์เครื่องใช้", status_use:1, natural_on_use:"ใช้งานได้ดี"},
+                                    {material_name:"ชักโครก", type_material:"ครุภัณฑ์ห้องน้ำ", status_use:1, natural_on_use:"ใช้งานได้ดี"},
+                                    {material_name:"อ่างล้างหน้า", type_material:"ครุภัณฑ์ห้องน้ำ", status_use:1, natural_on_use:"ใช้งานได้ดี"},
+                                    {material_name:"สายฉีด", type_material:"ครุภัณฑ์ห้องน้ำ", status_use:2, natural_on_use:"ชำรุดมีรอยรั่วของน้ำ"},
+                                ]
+                                const activeType = ["ใช้งานได้","ใช้งานไม่ได้"]
+                                
+                                // mapping
+                                tableData2.map(item => {
+                                    let rColor = ''
+                                    switch(item.role){
+                                        case 1: rColor = 'text-danger';  break 
+                                        case 2: rColor = 'text-info';    break
+                                        case 3: rColor = 'text-success'; break
+                                    }
+                                    item.role_text = `<text class="${rColor}">${item.role_name}</text>`
+
+                                    item.active_status = activeType[item.status_use]
+                                    const atColor = item.status_use == 1 ? 'bg-success':'bg-danger'
+                                    item.active_text = `<badge class="badge ${atColor}">${item.active_status}</badge>`
+                                    return item
+                                })
+
+                                tableData2.forEach( (item,index) => {
+                                %>
+                                <tr>
+                                    <th class="text-center"><%=index+1 %></th>
+                                    <th class="text-center"><%=item.material_name %></th>
+                                    <th class="text-center"><%=item.type_material %></th>
+                                    <th class="text-center"><%-item.active_text %></th>
+                                    <th class="text-center"><%-item.natural_on_use %></th>
+                                </tr>
+                                <%
+                                }) 
+                                %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn bg-success">อนุมัติ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- In page script -->
+<script>
+    $(() => {
+        // Event : button info click
+        $(".btn_audit_material").click(() => {
+            $('#modal_audit_material').modal('show')
+        })
+        // Event : button edit click
+        $(".btn_edit").click(() => {
+            $('#modal_form_edit').modal('show')
+        })
+        // Event : button add click
+        $("#btn_add").click(() => {
+            $('#modal_form_add').modal('show')
+        })
+        // Event : button host click
+        $(".btn_host").click(() => {
+            $('#modal_form_host').modal('show')
+        })
+        // Event : button delete click
+        $(".btn_delete").click(() => {
+            $('#modal_form_delete').modal('show')
+        })
+    })
+</script>
+
+<%- include('__footer') %>  

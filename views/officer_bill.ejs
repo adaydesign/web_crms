@@ -11,9 +11,126 @@
             </div>
 
             <div class="card-body py-0">
-                <br>
-                <br>
-                <br>
+                <div class="row">
+                    <div class="col-3 col-form-label text-right">
+                        อาคารชุด
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control">
+                            <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 96 หน่วย (ตลิ่งชัน)</option>
+                            <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 50 หน่วย (ตลิ่งชัน) </option>
+                            <option>อาคารที่พักข้าราชการศาลยุติธรรม ซอยเสนานิคม 1 </option>
+                        </select>
+                    </div>
+                    <div class="col-5" style="text-align:right;">
+                        <button class="btn btn-success btn-sm btn_bill_calculate"><i class="icon-plus22"></i>  แจ้งค่าบำรุง</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 col-form-label text-right">
+                        ตึก
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control">
+                            <option>อาคาร A</option>
+                            <option>อาคาร B</option>
+                            <option>อาคาร C</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 col-form-label text-right">
+                        เดือน
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control">
+                            <option>เดือน : มกราคม</option>
+                            <option>เดือน : กุมภาพันธ์</option>
+                            <option>เดือน : มีนาคม</option>
+                            <option>เดือน : เมษายน</option>
+                            <option>เดือน : พฤษภาคม</option>
+                            <option>เดือน : มิถุนายน</option>
+                            <option>เดือน : กรกฎาคม</option>
+                            <option>เดือน : สิงหาคม</option>
+                            <option>เดือน : กันยายน</option>
+                            <option>เดือน : ตุลาคม</option>
+                            <option>เดือน : พฤษจิกายน</option>
+                            <option>เดือน : ธันวาคม</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 col-form-label text-right">
+                        ปี
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control">
+                            <option>ปี : 2563</option>
+                            <option>ปี : 2564</option>
+                            <option>ปี : 2565</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <table class="table table-bordered table-striped table-sm">
+                    <thead class="bg-primary">
+                        <tr>
+                            <th style="width: 20px;" class="text-center">#</th>
+                            <th class="text-center">ห้อง</th>
+                            <th class="text-center">ค่าบำรุง</th>
+                            <th class="text-center">น้ำประปา</th>
+                            <th class="text-center">สถานะ</th>
+                            <th class="text-center" style="width: 60px;">info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                        const tableData = [
+                            {room_name:"A101", price_bill:'1000', water:'150', status:1},
+                            {room_name:"A102", price_bill:'1000', water:'150', status:1},
+                            {room_name:"A103", price_bill:'1000', water:'150', status:1},
+                            {room_name:"A104", price_bill:'1000', water:'150', status:1},
+                            {room_name:"A105", price_bill:'1000', water:'150', status:0},
+                            {room_name:"A106", price_bill:'1000', water:'150', status:1},
+                            {room_name:"A107", price_bill:'1000', water:'150', status:1},
+                            {room_name:"A108", price_bill:'1000', water:'150', status:1},
+                            {room_name:"A109", price_bill:'-', water:'-', status:0},
+                            {room_name:"A110", price_bill:'1000', water:'150', status:1},
+                        ]
+
+                        const payment = ["ไม่จ่าย","จ่าย"]
+                        
+                        // mapping
+                        tableData.map(item => {
+                            // item.building_name = buildName[item.building-1]
+                            let sColor = ''
+                            switch(item.status){
+                                case 0: sColor = 'text-danger';  break 
+                                case 1: sColor = 'text-primary'; break
+                                case 2: sColor = 'text-warning'; break
+                            }
+
+                            const stColor = item.status == 1 ? 'bg-success':'bg-danger'
+                            item.status_text = `<text class="badge ${stColor}">${payment[item.status]}</text>`
+
+                            return item
+                        })
+
+                        tableData.forEach( (item, index) => {
+                        %>
+                        <tr>
+                            <th class="text-center"><%=index+1 %></th>
+                            <th class="text-center"><%=item.room_name %></th>
+                            <th class="text-center"><%=item.price_bill %></th>
+                            <th class="text-center"><%-item.water %></th>
+                            <th class="text-center"><%-item.status_text %></th>
+                            <th class="text-center"><button class="btn btn-info btn-sm btn_view_reciept_bill"><i class="icon-eye"></i></button></th>
+                        </tr>
+                        <%
+                        })
+                        %>
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -21,5 +138,196 @@
 
 </div>
 <!-- /content -->
+
+
+<div id="modal_bill_calculate" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title">ประมวลผลแจ้งค่าบำรุงรายเดือน</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="col-3 col-form-label">
+                            อาคารชุด
+                        </div>
+                        <div class="col-9">
+                            <select class="form-control">
+                                <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 96 หน่วย (ตลิ่งชัน)</option>
+                                <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 50 หน่วย (ตลิ่งชัน) </option>
+                                <option>อาคารที่พักข้าราชการศาลยุติธรรม ซอยเสนานิคม 1 </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-3 col-form-label">
+                                เดือน
+                            </div>
+                            <div class="col-9">
+                                <select class="form-control">
+                                    <option>เดือน : มกราคม</option>
+                                    <option>เดือน : กุมภาพันธ์</option>
+                                    <option>เดือน : มีนาคม</option>
+                                    <option>เดือน : เมษายน</option>
+                                    <option>เดือน : พฤษภาคม</option>
+                                    <option>เดือน : มิถุนายน</option>
+                                    <option>เดือน : กรกฎาคม</option>
+                                    <option>เดือน : สิงหาคม</option>
+                                    <option>เดือน : กันยายน</option>
+                                    <option>เดือน : ตุลาคม</option>
+                                    <option>เดือน : พฤษจิกายน</option>
+                                    <option>เดือน : ธันวาคม</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 col-form-label">
+                                ปี
+                            </div>
+                            <div class="col-9">
+                                <select class="form-control">
+                                    <option>ปี : 2563</option>
+                                    <option>ปี : 2564</option>
+                                    <option>ปี : 2565</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn bg-success">ยืนยันอนุมัติคำขอ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="modal_view_reciept_bill" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title">รายละเอียดการแจ้งการชำระค่าบำรุง</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-3 col-form-label">
+                                เดือน
+                            </div>
+                            <div class="col-9">
+                                <select class="form-control">
+                                    <option>เดือน : มกราคม</option>
+                                    <option>เดือน : กุมภาพันธ์</option>
+                                    <option>เดือน : มีนาคม</option>
+                                    <option>เดือน : เมษายน</option>
+                                    <option>เดือน : พฤษภาคม</option>
+                                    <option>เดือน : มิถุนายน</option>
+                                    <option>เดือน : กรกฎาคม</option>
+                                    <option>เดือน : สิงหาคม</option>
+                                    <option>เดือน : กันยายน</option>
+                                    <option>เดือน : ตุลาคม</option>
+                                    <option>เดือน : พฤษจิกายน</option>
+                                    <option>เดือน : ธันวาคม</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 col-form-label">
+                                ปี
+                            </div>
+                            <div class="col-9">
+                                <select class="form-control">
+                                    <option>ปี : 2563</option>
+                                    <option>ปี : 2564</option>
+                                    <option>ปี : 2565</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-3 col-form-label">
+                            อาคารชุด
+                        </div>
+                        <div class="col-9">
+                            <select class="form-control">
+                                <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 96 หน่วย (ตลิ่งชัน)</option>
+                                <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 50 หน่วย (ตลิ่งชัน) </option>
+                                <option>อาคารที่พักข้าราชการศาลยุติธรรม ซอยเสนานิคม 1 </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label>ผู้อาศัย</label>
+                            <input type="text" placeholder="ผู้อาศัย" class="form-control" value="นางสาวสุดสวย ชอบจัดการ" >
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label>ค่าบำรุงรายเดือน</label>
+                            <input type="text" placeholder="ผู้อาศัย" class="form-control" value="200" >  บาท
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label>สถานะการแจ้ง</label>
+                            <select class="form-control">
+                                <option>แจ้งแล้ว</option>
+                                <option>ยังไม่แจ้ง</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label>วันที่แจ้ง</label>
+                            <input type="calendar" placeholder="ผู้อาศัย" class="form-control" value="" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label>หลักฐาน</label>
+                            <input type="file" placeholder="หลักฐาน" class="form-control" value="" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label>ความเห็น</label>
+                            <textarea type="text" placeholder="ความเห็น" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn bg-success">ยืนยันอนุมัติคำขอ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(() => {
+        // Event : button info click
+        $(".btn_bill_calculate").click(() => {
+            $('#modal_bill_calculate').modal('show')
+        })
+        $(".btn_view_reciept_bill").click(() => {
+            $('#modal_view_reciept_bill').modal('show')
+        })
+    })
+</script>
 
 <%- include('__footer') %>

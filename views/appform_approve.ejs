@@ -11,9 +11,64 @@
             </div>
 
             <div class="card-body py-0">
-                <br>
-                <br>
-                <br>
+                <table class="table table-bordered table-striped table-sm">
+                    <thead class="bg-primary">
+                        <tr>
+                            <th style="width: 20px;" class="text-center">#</th>
+                            <th class="text-center">ชื่อ - นามสกุล</th>
+                            <th class="text-center">หน่วยงาน</th>
+                            <th class="text-center">ที่อยู่</th>
+                            <th class="text-center">วันที่ยื่นข้อมูล</th>
+                            <th class="text-center" style="width: 60px;">info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                        const tableData = [
+                            {host:"นายวังใหญ่ ใจสะอาด", office:"สถาบันวิจัยรพีฯ", address:"111 หมู่ที่ 1 ตำบลในเมือง  อำเภอเมืองขอนแก่น  จังหวัดขอนแก่น", date:"27-03-2563"},
+                            {host:"นายมนูญ จันทร์ดี", office:"สำนักเทคโนโลยีสารสนเทศ",address:"222 หมู่ที่ 3 ตำบลในเมือง  อำเภอเมืองร้อยเอ็ด  จังหวัดร้อยเอ็ด", date:"27-03-2563"},
+                            {host:"นายยิ่งยง ยอดเยี่ยม", office:"ศูนย์รักษาความปลอดภัย", address:"333 หมู่ที่ 5 ตำบลในเมือง  อำเภอเมืองมหาสารคาม  จังหวัดมหาสารคาม", date:"27-03-2563"},
+                            {host:"นายสมชาติ ชาติทหารรบ", office:"ศาลอาญา", address:"444 หมู่ที่ 2 ตำบลในเมือง  อำเภอเมืองอุบลราชธานี  จังหวัดอุบลราชธานี", date:"27-03-2563"},
+                            {host:"นายสมหวัง ใจดี", office:"ศาลอุทธรณ์", address:"555 หมู่ที่ 13 ตำบลในเมือง  อำเภอเมืองอุดรธานี  จังหวัดอุดรธานี", date:"27-03-2563"},
+                            {host:"นายราชบัญ นิติธรรม", office:"ศาลแพ่งกรุงเทพใต้", address:"666 หมู่ที่ 12 ตำบลในเมือง  อำเภอเมืองปทุมธานี  จังหวัดปทุมธานี", date:"27-03-2563"},
+                            {host:"นายบุญเย็น ธรรมคุ้มครอง", office:"สถาบันพัฒนาข้าราชการฯ", address:"777 หมู่ที่ 17 ตำบลในเมือง  อำเภอเมืองลพบุรี  จังหวัดลพบุรี", date:"27-03-2563"},
+                            {host:"นางสาวสวาทจิต อยูเย็น", office:"สำนักเทคโนโลยีสารสนเทศ", address:"888 หมู่ที่ 14 ตำบลในเมือง  อำเภอเมืองสระแก้ว  จังหวัดสระแก้ว", date:"27-03-2563"},
+                            {host:"นางสงบ ร่มเย็น", office:"ศูนย์วิทยบริการเฉลิมพระเกียรติ", address:"999 หมู่ที่ 23 ตำบลในเมือง  อำเภอเมืองสระบุรี  จังหวัดสระบุรี", date:"27-03-2563"},
+                            {host:"นางสาวยอดคิด สนิทใจ", office:"ศาลอุทธรณ์", address:"123 หมู่ที่ 10 ตำบลในเมือง  อำเภอเมืองกาฬสินธุ์  จังหวัดกาฬสินธุ์", date:"27-03-2563"},
+                        ]
+
+                        const buildName = ["ตลิ่งชัน 96","ตลิ่งชัน 50","เสนานิคม"]
+                        const statusName = ["ว่าง","มีผู้อยู่อาศัย","ปรับปรุง"]
+                        
+                        // mapping
+                        tableData.map(item => {
+                            item.building_name = buildName[item.building-1]
+                            let sColor = ''
+                            switch(item.status){
+                                case 0: sColor = 'text-danger';  break 
+                                case 1: sColor = 'text-primary'; break
+                                case 2: sColor = 'text-warning'; break
+                            }
+                            item.status_text = `<text class="${sColor}">${statusName[item.status]}</text>`
+
+                            return item
+                        })
+
+                        tableData.forEach( (item, index) => {
+                        %>
+                        <tr>
+                            <th class="text-center"><%=index+1 %></th>
+                            <th class="text-center"><%=item.host %></th>
+                            <th><%=item.office %></th>
+                            <th><%-item.address %></th>
+                            <th class="text-center"><%-item.date %></th>
+                            <th width="10%" class="text-center"><button class="btn btn-info btn-sm btn_view_approve"><i class="icon-profile"></i></button></th>
+                        </tr>
+                        <%
+                        })
+                        %>
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -22,4 +77,36 @@
 </div>
 <!-- /content -->
 
+<div id="modal_view_approve" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title">อนุมัติคำขอ  [ <font color="red">นายวังใหญ่ ใจสะอาด</font> ]</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <p>ยืนยันอนุมัติคำขอ  [ <font color="red">นายวังใหญ่ ใจสะอาด</font> ] ?</p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn bg-success">ยืนยันอนุมัติคำขอ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(() => {
+        // Event : button info click
+        $(".btn_view_approve").click(() => {
+            $('#modal_view_approve').modal('show')
+        })
+    })
+</script>
 <%- include('__footer') %>

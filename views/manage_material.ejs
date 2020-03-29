@@ -11,9 +11,95 @@
             </div>
 
             <div class="card-body py-0">
-                <br>
-                <br>
-                <br>
+                <div class="row">
+                    <div class="col-3 col-form-label text-right">
+                        อาคารชุด
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control">
+                            <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 96 หน่วย (ตลิ่งชัน)</option>
+                            <option>อาคารชุดพักอาศัยข้าราชการศาลยุติธรรม ขนาด 50 หน่วย (ตลิ่งชัน) </option>
+                            <option>อาคารที่พักข้าราชการศาลยุติธรรม ซอยเสนานิคม 1 </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 col-form-label text-right">
+                        ตึก
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control">
+                            <option>อาคาร A</option>
+                            <option>อาคาร B</option>
+                            <option>อาคาร C</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <table class="table table-bordered table-striped table-sm">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th style="width: 20px;" class="text-center">#</th>
+                                    <th class="text-center">รายการ</th>
+                                    <th class="text-center">จำนวน</th>
+                                    <th class="text-center">หน่วยนับ</th>
+                                    <th class="text-center" style="width: 60px;">edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                const tableData1 = [
+                                    {material_name:"เตียงนอน", count:1, type_count:"ตัว"},
+                                    {material_name:"ตู้เสื้อผ้า", count:1, type_count:"ตู้"},
+                                    {material_name:"โต๊ะทำงาน", count:1, type_count:"โต๊ะ"},
+                                    {material_name:"ชักโครก", count:1, type_count:"ตัว"},
+                                    {material_name:"อ่างล้างหน้า", count:1, type_count:"ชิ้น"},
+                                    {material_name:"สายฉีด", count:1, type_count:"สาย"},
+                                    {material_name:"แอร์", count:1, type_count:"เครื่อง"},
+                                    {material_name:"ชุดเตาแก๊ส", count:1, type_count:"ชุด"},
+                                    {material_name:"โต๊ะทานข้าว", count:1, type_count:"โต๊ะ"},
+                                    {material_name:"โซฟา", count:4, type_count:"ตัว"},
+                                ]
+
+                                const audit = ["inactive","active"]
+                                const buildName = ["ตลิ่งชัน 96","ตลิ่งชัน 50","เสนานิคม"]
+                                const statusName = ["ว่าง","มีผู้อยู่อาศัย","ปรับปรุง"]
+                                
+                                // mapping
+                                tableData1.map(item => {
+                                    item.building_name = buildName[item.building-1]
+                                    let sColor = ''
+                                    switch(item.status){
+                                        case 0: sColor = 'text-danger';  break 
+                                        case 1: sColor = 'text-primary'; break
+                                        case 2: sColor = 'text-warning'; break
+                                    }
+
+                                    const at_aColor = item.active_a == 1 ? 'bg-success':'bg-danger'
+
+                                    item.status_text = `<text class="badge ${sColor}">${statusName[item.status]}</text>`
+                                    item.status_audit = `<text class="badge ${at_aColor}">${audit[item.active_a]}</text>`
+
+                                    return item
+                                })
+
+                                tableData1.forEach( (item, index) => {
+                                %>
+                                <tr>
+                                    <th class="text-center"><%=index+1 %></th>
+                                    <th class="text-center"><%=item.material_name %></th>
+                                    <th class="text-center"><%=item.count %></th>
+                                    <th class="text-center"><%-item.type_count %></th>
+                                    <th width="20%" class="text-center">
+                                        <button class="btn btn-danger btn-sm btn_delete_material"><i class="icon-trash"></i></button>&nbsp;&nbsp;
+                                        <button class="btn btn-info btn-sm btn_edit_material"><i class="icon-pencil7"></i></button>
+                                    </th>
+                                </tr>
+                                <%
+                                })
+                                %>
+                            </tbody>
+                        </table>
             </div>
         </div>
 
@@ -21,5 +107,92 @@
 
 </div>
 <!-- /content -->
+
+<div id="modal_delete_material" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title">ลบรายการครุภัณฑ์  [ <font color="red">เตียงนอน</font> ]</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <p>ยืนยันจะลบรายการครุภัณฑ์  [ <font color="red">เตียงนอน</font> ] ?</p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn bg-danger">ยืนยันลบ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="modal_edit_material" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title">แก้ไขรายการครภัณฑ์ [ <font color="red">เตียงนอน</font> ]</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>ชื่อครุภัณฑ์</label>
+                                <input type="text" placeholder="ชื่อครุภัณฑ์" class="form-control"  value="เตียงนอน">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>จำนวน</label>
+                                <input type="number" placeholder="จำนวน" class="form-control" value="1">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>หน่วยนับ</label>
+                                <select id="type_count" class="form-control">
+                                    <option value="1">ตัว</option>
+                                    <option value="2">ตู้</option>
+                                    <option value="3">โต๊ะ</option>
+                                    <option value="4">ชิ้น</option>
+                                    <option value="5">สาย</option>
+                                    <option value="6">เครื่อง</option>
+                                    <option value="7">ชุด</option>
+                                    <option value="8">โต๊ะ</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn bg-success">บันทึกแก้ไข</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(() => {
+        // Event : button info click
+        $(".btn_view_material").click(() => {
+            $('#modal_view_material').modal('show')
+        })
+        $(".btn_delete_material").click(() => {
+            $('#modal_delete_material').modal('show')
+        })
+        $(".btn_edit_material").click(() => {
+            $('#modal_edit_material').modal('show')
+        })
+    })
+</script>
 
 <%- include('__footer') %>
